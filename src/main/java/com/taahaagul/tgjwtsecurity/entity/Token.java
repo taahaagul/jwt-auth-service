@@ -29,10 +29,6 @@ public class Token {
     public boolean revoked;
     public boolean expired;
 
-    @Column(columnDefinition = "TIMESTAMP")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime expiry;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     public User user;
