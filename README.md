@@ -11,6 +11,7 @@ This project demonstrates the implementation of security using Spring Boot 3.0 a
 - Logout mechanism
 - Refresh token
 - Email Validation
+- Change Password
 
 ## Technologies
 
