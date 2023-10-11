@@ -7,12 +7,14 @@ import com.taahaagul.tgjwtsecurity.exception.UserNotFoundException;
 import com.taahaagul.tgjwtsecurity.repository.TokenRepository;
 import com.taahaagul.tgjwtsecurity.repository.UserRepository;
 import com.taahaagul.tgjwtsecurity.repository.VerificationTokenRepository;
+import com.taahaagul.tgjwtsecurity.request.ForgetPaswRequest;
 import com.taahaagul.tgjwtsecurity.request.LoginRequest;
 import com.taahaagul.tgjwtsecurity.request.RegisterRequest;
 import com.taahaagul.tgjwtsecurity.response.AuthenticationResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,12 +24,14 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationService {
 
     private final UserRepository userRepository;
@@ -68,11 +72,26 @@ public class AuthenticationService {
     }
 
     public String generateVerificationToken(User user) {
+        VerificationToken existingToken = verificationTokenRepository.findByUser(user);
+
+        if(existingToken != null) {
+            verificationTokenRepository.delete(existingToken);
+            log.info("Deleted existing verification token");
+        } else {
+            log.info("There is no any verification token");
+        }
+
         String token = UUID.randomUUID().toString();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MINUTE, 4);
+        Date expirationTime = calendar.getTime();
+
         VerificationToken verificationToken = VerificationToken.builder()
                 .token(token)
                 .user(user)
-                .created(new Date())
+                .expirationTime(expirationTime)
                 .build();
 
         verificationTokenRepository.save(verificationToken);
@@ -89,6 +108,7 @@ public class AuthenticationService {
         User  user = userRepository.findByEmail(username)
                 .orElseThrow(()-> new UserNotFoundException("User not found with name -" + username));
         user.setEnabled(true);
+        verificationTokenRepository.delete(verificationToken);
         userRepository.save(user);
     }
 
@@ -171,5 +191,32 @@ public class AuthenticationService {
         User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(() -> new UserNotFoundException("Current user is not found"));
         return user;
+    }
+
+    public void forgetMyPaswToken(String email) {
+        User existingUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User is not found"));
+
+        String token = generateVerificationToken(existingUser);
+
+        mailService.sendMail(new NotificationEmail("Forget My Password",
+                existingUser.getEmail(), "Please copy this token = " + token));
+    }
+
+    public void forgetChangePasw(ForgetPaswRequest forgetPaswRequest) {
+
+        VerificationToken verificationToken = verificationTokenRepository
+                .findByToken(forgetPaswRequest.getToken())
+                .orElseThrow(() -> new UserNotFoundException("Token is not exist"));
+
+        Date now = new Date();
+
+        if(verificationToken.getExpirationTime().after(now)) {
+            User user = verificationToken.getUser();
+            user.setPassword(passwordEncoder.encode(forgetPaswRequest.getNewPasw()));
+            userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("Token is expired");
+        }
     }
 }

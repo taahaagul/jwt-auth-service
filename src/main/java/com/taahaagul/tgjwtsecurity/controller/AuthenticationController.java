@@ -1,5 +1,6 @@
 package com.taahaagul.tgjwtsecurity.controller;
 
+import com.taahaagul.tgjwtsecurity.request.ForgetPaswRequest;
 import com.taahaagul.tgjwtsecurity.request.LoginRequest;
 import com.taahaagul.tgjwtsecurity.request.RegisterRequest;
 import com.taahaagul.tgjwtsecurity.response.AuthenticationResponse;
@@ -46,9 +47,22 @@ public class AuthenticationController {
         service.refreshToken(request, response);
     }
 
-    @GetMapping("accountVerification/{token}")
+    @GetMapping("/accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
         service.verifyAccount(token);
         return new ResponseEntity<>("Account Activated Successfully", OK);
+    }
+
+    @PostMapping("/forgetMyPassword/{email}")
+    public ResponseEntity<String> forgetMyPassword(@PathVariable String email) {
+        service.forgetMyPaswToken(email);
+        return new ResponseEntity<>("Token is delivered", OK);
+    }
+
+    @PutMapping("/forgetMyPassword/newPasw")
+    public ResponseEntity<String> forgetChangePasword(
+            @Valid @RequestBody ForgetPaswRequest forgetPaswRequest) {
+        service.forgetChangePasw(forgetPaswRequest);
+        return new ResponseEntity<>("New Password is determined", OK);
     }
 }
