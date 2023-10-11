@@ -13,6 +13,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import static com.taahaagul.tgjwtsecurity.entity.Permission.*;
+import static com.taahaagul.tgjwtsecurity.entity.Role.ADMIN;
+import static com.taahaagul.tgjwtsecurity.entity.Role.MANAGER;
+import static org.springframework.http.HttpMethod.*;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

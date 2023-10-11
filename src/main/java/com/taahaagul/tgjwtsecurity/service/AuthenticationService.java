@@ -55,7 +55,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .memberSince(LocalDate.now())
-                .role(Role.ZERO)
+                .role(Role.USER)
                 .enabled(false)
                 .build();
         userRepository.save(user);

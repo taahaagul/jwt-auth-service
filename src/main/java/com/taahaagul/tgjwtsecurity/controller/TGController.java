@@ -1,16 +1,33 @@
 package com.taahaagul.tgjwtsecurity.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/TG")
 public class TGController {
 
     @GetMapping
-    public ResponseEntity<String> tg() {
-        return ResponseEntity.ok("TG");
+    @PreAuthorize("hasAuthority('tg:read')")
+    public String get() {
+        return "GET:: TG controller";
+    }
+
+    @PostMapping
+    @PreAuthorize("hasAuthority('tg:create')")
+    public String post() {
+        return "POST:: TG controller";
+    }
+
+    @PutMapping
+    @PreAuthorize("hasAuthority('tg:update')")
+    public String put() {
+        return "PUT:: TG controller";
+    }
+
+    @DeleteMapping
+    @PreAuthorize("hasAuthority('tg:delete')")
+    public String delete() {
+        return "DELETE:: admin controller";
     }
 }
