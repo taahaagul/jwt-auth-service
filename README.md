@@ -12,6 +12,7 @@ This project demonstrates the implementation of security using Spring Boot 3.0 a
 - Refresh token
 - Email Validation
 - Change Password
+- Forget My Password
 
 ## Technologies
 
