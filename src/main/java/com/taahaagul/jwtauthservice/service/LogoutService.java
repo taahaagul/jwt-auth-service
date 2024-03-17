@@ -1,7 +1,6 @@
 package com.taahaagul.jwtauthservice.service;
 
 import com.taahaagul.jwtauthservice.exception.UserNotFoundException;
-import com.taahaagul.jwtauthservice.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

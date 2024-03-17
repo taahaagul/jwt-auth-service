@@ -1,6 +1,5 @@
 package com.taahaagul.jwtauthservice.config;
 
-import com.taahaagul.jwtauthservice.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

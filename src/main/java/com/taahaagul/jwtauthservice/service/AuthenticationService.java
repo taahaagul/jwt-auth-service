@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taahaagul.jwtauthservice.config.JwtService;
 import com.taahaagul.jwtauthservice.entity.*;
 import com.taahaagul.jwtauthservice.exception.UserNotFoundException;
-import com.taahaagul.jwtauthservice.repository.TokenRepository;
 import com.taahaagul.jwtauthservice.repository.UserRepository;
 import com.taahaagul.jwtauthservice.repository.VerificationTokenRepository;
 import com.taahaagul.jwtauthservice.request.ForgetPaswRequest;
