@@ -1,7 +1,7 @@
 package com.taahaagul.jwtauthservice.service;
 
 import com.taahaagul.jwtauthservice.entity.User;
-import com.taahaagul.jwtauthservice.exception.UserNotFoundException;
+import com.taahaagul.jwtauthservice.exception.IllegalOperationException;
 import com.taahaagul.jwtauthservice.repository.UserRepository;
 import com.taahaagul.jwtauthservice.dto.request.UpdatePasswordRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,6 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(request.getNewPasw()));
             userRepository.save(user);
         } else
-            throw new UserNotFoundException("Password unmatched!");
+            throw new IllegalOperationException("Password unmatched!");
     }
 }

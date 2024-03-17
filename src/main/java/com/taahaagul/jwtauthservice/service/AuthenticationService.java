@@ -3,7 +3,8 @@ package com.taahaagul.jwtauthservice.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taahaagul.jwtauthservice.config.JwtService;
 import com.taahaagul.jwtauthservice.entity.*;
-import com.taahaagul.jwtauthservice.exception.UserNotFoundException;
+import com.taahaagul.jwtauthservice.exception.IllegalOperationException;
+import com.taahaagul.jwtauthservice.exception.ResourceNotFoundException;
 import com.taahaagul.jwtauthservice.repository.UserRepository;
 import com.taahaagul.jwtauthservice.repository.VerificationTokenRepository;
 import com.taahaagul.jwtauthservice.dto.request.ForgetPasswordRequest;
@@ -132,13 +133,13 @@ public class AuthenticationService {
 
     public void verifyAccount(String token) {
         Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
-        fetchUserAndEnable(verificationToken.orElseThrow(() -> new UserNotFoundException("Invalid Token")));
+        fetchUserAndEnable(verificationToken.orElseThrow(() -> new IllegalOperationException("Invalid Verification Token")));
     }
 
     private void fetchUserAndEnable(VerificationToken verificationToken) {
         String username = verificationToken.getUser().getUsername();
         User  user = userRepository.findByEmail(username)
-                .orElseThrow(()-> new UserNotFoundException("User not found with name -" + username));
+                .orElseThrow(()-> new ResourceNotFoundException("User", "userId", "email"));
         user.setEnabled(true);
         revokeAllVerificationToken(user);
         userRepository.save(user);
@@ -146,7 +147,7 @@ public class AuthenticationService {
 
     public void forgetMyPaswToken(String email) {
         User existingUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User is not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
 
         String token = generateVerificationToken(existingUser);
 
@@ -158,7 +159,7 @@ public class AuthenticationService {
 
         VerificationToken verificationToken = verificationTokenRepository
                 .findByToken(forgetPasswordRequest.getToken())
-                .orElseThrow(() -> new UserNotFoundException("Token is not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("VerificationToken", "token", forgetPasswordRequest.getToken()));
 
         Date now = new Date();
 
@@ -167,13 +168,13 @@ public class AuthenticationService {
             user.setPassword(passwordEncoder.encode(forgetPasswordRequest.getNewPasw()));
             userRepository.save(user);
         } else {
-            throw new UserNotFoundException("VerificationToken is expired");
+            throw new IllegalOperationException("VerificationToken is expired");
         }
     }
 
     public User getCurrentUser() {
         User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())
-                .orElseThrow(() -> new UserNotFoundException("Current user is not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", SecurityContextHolder.getContext().getAuthentication().getName()));
         return user;
     }
 }
