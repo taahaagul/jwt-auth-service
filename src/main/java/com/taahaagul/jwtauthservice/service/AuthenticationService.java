@@ -6,7 +6,7 @@ import com.taahaagul.jwtauthservice.entity.*;
 import com.taahaagul.jwtauthservice.exception.UserNotFoundException;
 import com.taahaagul.jwtauthservice.repository.UserRepository;
 import com.taahaagul.jwtauthservice.repository.VerificationTokenRepository;
-import com.taahaagul.jwtauthservice.dto.request.ForgetPaswRequest;
+import com.taahaagul.jwtauthservice.dto.request.ForgetPasswordRequest;
 import com.taahaagul.jwtauthservice.dto.request.LoginRequest;
 import com.taahaagul.jwtauthservice.dto.request.RegisterRequest;
 import com.taahaagul.jwtauthservice.dto.response.AuthenticationResponse;
@@ -154,17 +154,17 @@ public class AuthenticationService {
                 existingUser.getEmail(), "Please copy this token = " + token));
     }
 
-    public void forgetChangePasw(ForgetPaswRequest forgetPaswRequest) {
+    public void forgetChangePasw(ForgetPasswordRequest forgetPasswordRequest) {
 
         VerificationToken verificationToken = verificationTokenRepository
-                .findByToken(forgetPaswRequest.getToken())
+                .findByToken(forgetPasswordRequest.getToken())
                 .orElseThrow(() -> new UserNotFoundException("Token is not exist"));
 
         Date now = new Date();
 
         if(verificationToken.getExpirationTime().after(now)) {
             User user = verificationToken.getUser();
-            user.setPassword(passwordEncoder.encode(forgetPaswRequest.getNewPasw()));
+            user.setPassword(passwordEncoder.encode(forgetPasswordRequest.getNewPasw()));
             userRepository.save(user);
         } else {
             throw new UserNotFoundException("VerificationToken is expired");

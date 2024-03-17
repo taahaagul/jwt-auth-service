@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class ForgetPaswRequest {
+public class ForgetPasswordRequest {
 
     @NotBlank(message = "token is required")
     private String token;

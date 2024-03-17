@@ -1,6 +1,6 @@
 package com.taahaagul.jwtauthservice.controller;
 
-import com.taahaagul.jwtauthservice.dto.request.ForgetPaswRequest;
+import com.taahaagul.jwtauthservice.dto.request.ForgetPasswordRequest;
 import com.taahaagul.jwtauthservice.dto.request.LoginRequest;
 import com.taahaagul.jwtauthservice.dto.request.RegisterRequest;
 import com.taahaagul.jwtauthservice.dto.response.AuthenticationResponse;
@@ -61,8 +61,8 @@ public class AuthenticationController {
 
     @PutMapping("/forgetMyPassword/newPasw")
     public ResponseEntity<String> forgetChangePasword(
-            @Valid @RequestBody ForgetPaswRequest forgetPaswRequest) {
-        service.forgetChangePasw(forgetPaswRequest);
+            @Valid @RequestBody ForgetPasswordRequest forgetPasswordRequest) {
+        service.forgetChangePasw(forgetPasswordRequest);
         return new ResponseEntity<>("New Password is determined", OK);
     }
 }
