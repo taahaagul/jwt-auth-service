@@ -30,7 +30,6 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {
             "/api/auth/**",
-            "/TG/test",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
@@ -71,6 +70,5 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
     }
 }

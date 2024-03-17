@@ -3,7 +3,7 @@ package com.taahaagul.jwtauthservice.service;
 import com.taahaagul.jwtauthservice.entity.User;
 import com.taahaagul.jwtauthservice.exception.UserNotFoundException;
 import com.taahaagul.jwtauthservice.repository.UserRepository;
-import com.taahaagul.jwtauthservice.request.UserChangePaswRequest;
+import com.taahaagul.jwtauthservice.request.ChangePasswordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class UserService {
     private final AuthenticationService authenticationService;
     private final PasswordEncoder passwordEncoder;
 
-    public void changePassword(UserChangePaswRequest request) {
+    public void changePassword(ChangePasswordRequest request) {
         User user = authenticationService.getCurrentUser();
         if(passwordEncoder.matches(request.getOldPasw(), user.getPassword())) {
             user.setPassword(passwordEncoder.encode(request.getNewPasw()));

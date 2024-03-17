@@ -167,7 +167,7 @@ public class AuthenticationService {
             user.setPassword(passwordEncoder.encode(forgetPaswRequest.getNewPasw()));
             userRepository.save(user);
         } else {
-            throw new UserNotFoundException("Token is expired");
+            throw new UserNotFoundException("VerificationToken is expired");
         }
     }
 

@@ -1,6 +1,6 @@
 package com.taahaagul.jwtauthservice.controller;
 
-import com.taahaagul.jwtauthservice.request.UserChangePaswRequest;
+import com.taahaagul.jwtauthservice.request.ChangePasswordRequest;
 import com.taahaagul.jwtauthservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class UserController {
 
     @PutMapping("/change-password")
     public ResponseEntity<String> changePassword(
-            @Valid @RequestBody UserChangePaswRequest request) {
+            @Valid @RequestBody ChangePasswordRequest request) {
         userService.changePassword(request);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body("Change Password Successfully");
