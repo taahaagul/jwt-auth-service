@@ -1,9 +1,9 @@
 package com.taahaagul.jwtauthservice.controller;
 
-import com.taahaagul.jwtauthservice.request.ForgetPaswRequest;
-import com.taahaagul.jwtauthservice.request.LoginRequest;
-import com.taahaagul.jwtauthservice.request.RegisterRequest;
-import com.taahaagul.jwtauthservice.response.AuthenticationResponse;
+import com.taahaagul.jwtauthservice.dto.request.ForgetPaswRequest;
+import com.taahaagul.jwtauthservice.dto.request.LoginRequest;
+import com.taahaagul.jwtauthservice.dto.request.RegisterRequest;
+import com.taahaagul.jwtauthservice.dto.response.AuthenticationResponse;
 import com.taahaagul.jwtauthservice.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

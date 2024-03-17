@@ -1,4 +1,4 @@
-package com.taahaagul.jwtauthservice.response;
+package com.taahaagul.jwtauthservice.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

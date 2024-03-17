@@ -3,7 +3,7 @@ package com.taahaagul.jwtauthservice.service;
 import com.taahaagul.jwtauthservice.entity.User;
 import com.taahaagul.jwtauthservice.exception.UserNotFoundException;
 import com.taahaagul.jwtauthservice.repository.UserRepository;
-import com.taahaagul.jwtauthservice.request.ChangePasswordRequest;
+import com.taahaagul.jwtauthservice.dto.request.ChangePasswordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

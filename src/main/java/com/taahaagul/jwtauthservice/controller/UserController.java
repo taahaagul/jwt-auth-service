@@ -1,6 +1,6 @@
 package com.taahaagul.jwtauthservice.controller;
 
-import com.taahaagul.jwtauthservice.request.ChangePasswordRequest;
+import com.taahaagul.jwtauthservice.dto.request.ChangePasswordRequest;
 import com.taahaagul.jwtauthservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

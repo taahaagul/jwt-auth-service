@@ -1,4 +1,4 @@
-package com.taahaagul.jwtauthservice.request;
+package com.taahaagul.jwtauthservice.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
